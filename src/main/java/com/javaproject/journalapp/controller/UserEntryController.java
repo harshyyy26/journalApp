@@ -31,18 +31,18 @@ public class UserEntryController {
         userService.saveEntry(user);
     }
 
-    @GetMapping("id/{myId}")
-    public ResponseEntity<?> getUserById(@PathVariable ObjectId myId){
-        Optional<User> user = userService.findById(myId);
-        if(user.isPresent()){
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(user.get(), HttpStatus.NOT_FOUND);
-    }
+//    @GetMapping("id/{myId}")
+//    public ResponseEntity<?> getUserById(@PathVariable ObjectId myId){
+//        Optional<User> user = userService.findById(myId);
+//        if(user.isPresent()){
+//            return new ResponseEntity<>(user.get(), HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(user.get(), HttpStatus.NOT_FOUND);
+//    }
 
-    @PostMapping
-    public ResponseEntity<?> updateUser (@RequestBody User user){
-        User userInDb = userService.findByUserName(user.getUserName());
+    @PutMapping("/{userName}") //we find by username and then update the users password
+    public ResponseEntity<?> updateUser (@RequestBody User user, @PathVariable String userName){
+        User userInDb = userService.findByUserName(userName);
         if(userInDb != null){
             userInDb.setUserName(user.getUserName());
             userInDb.setPassword(user.getPassword());
@@ -51,9 +51,9 @@ public class UserEntryController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("id/{myId}")
-    public ResponseEntity<?> deleteUserById(@PathVariable ObjectId myId){
-        userService.deleteById(myId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+//    @DeleteMapping("id/{myId}")
+//    public ResponseEntity<?> deleteUserById(@PathVariable ObjectId myId){
+//        userService.deleteById(myId);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 }

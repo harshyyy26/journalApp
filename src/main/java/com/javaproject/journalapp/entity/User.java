@@ -20,12 +20,12 @@ public class User {
 
     @Id
     private ObjectId id;
-    @Indexed(unique = true)
+    @Indexed(unique = true) //index automatic create no hoga so to create set application properties (no. 4)
     @NonNull
     private String userName;
     @NonNull
     private String password;
 
-    @DBRef
+    @DBRef //creating reference of JournalEntry  under users collection
     private List<JournalEntry> journalEntries = new ArrayList<>();
 }
