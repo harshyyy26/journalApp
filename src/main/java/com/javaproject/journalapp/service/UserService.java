@@ -7,6 +7,7 @@ import com.javaproject.journalapp.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,9 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JournalEntryRepository journalEntryRepository;
 
     public void saveEntry(User user){
         userRepository.save(user);
@@ -29,9 +33,19 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+//    code by edigest
     public void deleteById(ObjectId id){
+//        userRepository.deleteById(id); //by edigest
+//        below given by AI
+        // 1. Fetch the user
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        // 2. Delete all journal entries of this user
+        journalEntryRepository.deleteAllByUser(user);
+        // 3. Delete the user
         userRepository.deleteById(id);
     }
+
 
     public User findByUserName(String userName){
         return userRepository.findByUserName(userName);
