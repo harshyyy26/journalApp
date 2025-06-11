@@ -1,9 +1,7 @@
 package com.javaproject.journalapp.controller;
 
-import com.javaproject.journalapp.entity.JournalEntry;
 import com.javaproject.journalapp.entity.User;
 import com.javaproject.journalapp.repository.UserRepository;
-import com.javaproject.journalapp.service.JournalEntryService;
 import com.javaproject.journalapp.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -45,7 +41,7 @@ public class UserEntryController {
         if(userInDb != null){
             userInDb.setUserName(user.getUserName());
             userInDb.setPassword(user.getPassword());
-            userService.saveEntry(userInDb);
+            userService.saveNewUser(userInDb);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
